@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Download, Copy, RotateCcw, FileText } from 'lucide-svelte';
+	import { Download, Copy, RotateCcw, FileText, Send } from 'lucide-svelte';
 	import Card from './ui/card.svelte';
 	import Button from './ui/button.svelte';
+	import Toast from './ui/toast.svelte';
 	import type { AuthorizationResult, DecisionRecord } from '$lib/types';
 	
 	interface Props {
@@ -17,6 +18,7 @@
 	}: Props = $props();
 	
 	let copySuccess = $state(false);
+	let showSendToast = $state(false);
 	
 	const nextStepsConfig = $derived.by(() => {
 		if (!result) return null;
@@ -82,6 +84,14 @@
 			console.error('Failed to copy:', err);
 		}
 	}
+	
+	function sendToPayer() {
+		// Mock the send action with success feedback
+		showSendToast = true;
+		setTimeout(() => {
+			showSendToast = false;
+		}, 3000);
+	}
 </script>
 
 {#if result && nextStepsConfig}
@@ -106,10 +116,25 @@
 			<!-- Actions -->
 			<div class="border-t border-gray-200 pt-6">
 				<h4 class="text-sm font-semibold text-gray-900 mb-3">Actions</h4>
+				
+				<!-- Primary CTA: Send to Payer -->
+				{#if result !== 'DENY'}
+					<div class="mb-4">
+						<Button variant="success" onclick={sendToPayer} class="w-full" size="lg">
+							<Send class="w-5 h-5 mr-2" />
+							Send to Payer
+						</Button>
+						<p class="text-xs text-gray-500 mt-2 text-center">
+							Securely submit authorization proof to payer portal
+						</p>
+					</div>
+				{/if}
+				
+				<!-- Secondary Actions -->
 				<div class="grid grid-cols-2 gap-3">
-					<Button variant="default" onclick={downloadDecisionRecord} class="w-full">
+					<Button variant="outline" onclick={downloadDecisionRecord} class="w-full">
 						<Download class="w-4 h-4 mr-2" />
-						Download Record
+						Download
 					</Button>
 					<Button
 						variant="outline"
@@ -151,5 +176,12 @@
 			{/if}
 		</div>
 	</Card>
+	
+	<!-- Success Toast -->
+	<Toast 
+		show={showSendToast}
+		message="Successfully sent to payer! They will verify the proof."
+		onClose={() => showSendToast = false}
+	/>
 {/if}
 

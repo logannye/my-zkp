@@ -8,6 +8,18 @@ import type { RequestHandler } from './$types';
 
 const execAsync = promisify(exec);
 
+function toCamelCase(snakeCaseObj: any): any {
+	return {
+		policyId: snakeCaseObj.policy_id,
+		policyHash: snakeCaseObj.policy_hash,
+		patientCommitment: snakeCaseObj.patient_commitment,
+		claimedResult: snakeCaseObj.claimed_result,
+		code: snakeCaseObj.code,
+		lob: snakeCaseObj.lob,
+		proof: snakeCaseObj.proof
+	};
+}
+
 export const POST: RequestHandler = async ({ request }) => {
 	try {
 		const { patient, code } = await request.json();
@@ -48,14 +60,17 @@ export const POST: RequestHandler = async ({ request }) => {
 		const decisionRecordJson = await readFile(outputFile, 'utf-8');
 		const decisionRecord = JSON.parse(decisionRecordJson);
 		
+		// Transform snake_case to camelCase
+		const transformedRecord = toCamelCase(decisionRecord);
+		
 		// Clean up the temp file
 		await unlink(outputFile).catch((err) => {
 			console.error('Failed to delete temp file:', err);
 		});
 		
 		return json({
-			result: decisionRecord.claimed_result,
-			decisionRecord
+			result: transformedRecord.claimedResult,
+			decisionRecord: transformedRecord
 		});
 	} catch (error) {
 		console.error('Authorization error:', error);
