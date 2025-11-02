@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Download, Copy, RotateCcw, FileText, Send, Building2, FileCheck } from 'lucide-svelte';
+	import { Download, Copy, RotateCcw, FileText, Send, Building2, FileCheck, Loader } from 'lucide-svelte';
 	import Card from './ui/card.svelte';
 	import Button from './ui/button.svelte';
 	import Modal from './ui/modal.svelte';
@@ -19,6 +19,7 @@
 	
 	let copySuccess = $state(false);
 	let showSendModal = $state(false);
+	let isSending = $state(false);
 	
 	const nextStepsConfig = $derived.by(() => {
 		if (!result) return null;
@@ -85,8 +86,15 @@
 		}
 	}
 	
-	function sendToPayer() {
-		// Mock the send action with modal feedback
+	async function sendToPayer() {
+		// Show loading state
+		isSending = true;
+		
+		// Simulate proof transmission to payer (1.8 second delay)
+		await new Promise(resolve => setTimeout(resolve, 1800));
+		
+		// Reset loading state and show success modal
+		isSending = false;
 		showSendModal = true;
 	}
 </script>
@@ -117,12 +125,27 @@
 				<!-- Primary CTA: Send to Payer -->
 				{#if result !== 'DENY'}
 					<div class="mb-4">
-						<Button variant="success" onclick={sendToPayer} class="w-full" size="lg">
-							<Send class="w-5 h-5 mr-2" />
-							Send to Payer
+						<Button 
+							variant="success" 
+							onclick={sendToPayer} 
+							class="w-full" 
+							size="lg"
+							disabled={isSending}
+						>
+							{#if isSending}
+								<Loader class="w-5 h-5 mr-2 animate-spin" />
+								Sending...
+							{:else}
+								<Send class="w-5 h-5 mr-2" />
+								Send to Payer
+							{/if}
 						</Button>
 						<p class="text-xs text-gray-500 mt-2 text-center">
-							Securely submit authorization proof to payer portal
+							{#if isSending}
+								Transmitting proof to payer's verification system...
+							{:else}
+								Securely submit authorization proof to payer portal
+							{/if}
 						</p>
 					</div>
 				{/if}
