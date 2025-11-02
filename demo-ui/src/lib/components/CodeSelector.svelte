@@ -62,26 +62,31 @@
 			/>
 		</div>
 		
-		<div class="space-y-3">
+		<div class="space-y-4">
 			{#each filteredCodes as code (code.code)}
 				<button
 					onclick={() => handleSelect(code)}
-					class="w-full text-left p-4 border-2 rounded-lg transition-all hover:border-primary hover:bg-blue-50"
+					class="w-full text-left p-5 border-2 rounded-xl transition-all duration-200"
 					class:border-primary={selectedCodeValue === code.code}
 					class:bg-blue-50={selectedCodeValue === code.code}
+					class:shadow-md={selectedCodeValue === code.code}
 					class:border-gray-200={selectedCodeValue !== code.code}
+					class:hover:border-primary={true}
+					class:hover:bg-blue-50={true}
+					class:hover:shadow-md={true}
+					class:hover:scale-[1.01]={true}
 				>
 					<div class="flex items-start justify-between">
 						<div class="flex-1">
 							<div class="flex items-center space-x-3">
-								<span class="text-lg font-bold text-gray-900">{code.code}</span>
+								<span class="text-xl font-bold text-gray-900">{code.code}</span>
 								{#if code.requiresPA}
 									<Badge variant="warning">PA Required</Badge>
 								{:else}
 									<Badge variant="success">Auto-Approve</Badge>
 								{/if}
 							</div>
-							<p class="text-gray-700 mt-1">{code.description}</p>
+							<p class="text-base text-gray-600 mt-2">{code.description}</p>
 							<p class="text-sm text-gray-500 mt-2">
 								Policy: {code.policyId}
 							</p>

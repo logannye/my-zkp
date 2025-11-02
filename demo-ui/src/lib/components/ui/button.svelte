@@ -22,18 +22,18 @@
 	}: Props = $props();
 	
 	const variants = {
-		default: 'bg-primary text-white hover:bg-primary/90',
-		secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-		outline: 'border-2 border-gray-300 bg-transparent hover:bg-gray-100',
-		ghost: 'hover:bg-gray-100',
-		success: 'bg-success text-white hover:bg-success/90',
-		danger: 'bg-danger text-white hover:bg-danger/90'
+		default: 'bg-gradient-to-r from-blue-600 to-blue-500 text-white hover:from-blue-700 hover:to-blue-600 shadow-md hover:shadow-lg active:scale-[0.98]',
+		secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 hover:shadow-md active:scale-[0.98]',
+		outline: 'border-2 border-gray-300 bg-transparent hover:bg-gray-50 hover:border-gray-400 hover:shadow-sm active:scale-[0.98]',
+		ghost: 'hover:bg-gray-100 hover:shadow-sm active:scale-[0.98]',
+		success: 'bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:from-green-700 hover:to-emerald-600 shadow-md hover:shadow-lg active:scale-[0.98]',
+		danger: 'bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-700 hover:to-red-600 shadow-md hover:shadow-lg active:scale-[0.98]'
 	};
 	
 	const sizes = {
-		default: 'h-10 px-4 py-2',
-		sm: 'h-8 px-3 text-sm',
-		lg: 'h-12 px-8 text-lg'
+		default: 'min-h-[44px] px-6 py-3 text-base',
+		sm: 'min-h-[36px] px-4 py-2 text-sm',
+		lg: 'min-h-[52px] px-8 py-4 text-lg'
 	};
 </script>
 
@@ -42,9 +42,10 @@
 	{disabled}
 	onclick={onclick}
 	class={cn(
-		'inline-flex items-center justify-center rounded-md font-medium transition-colors',
-		'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
-		'disabled:pointer-events-none disabled:opacity-50',
+		'inline-flex items-center justify-center rounded-lg font-semibold',
+		'transition-all duration-150 ease-in-out',
+		'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500',
+		'disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed',
 		variants[variant],
 		sizes[size],
 		className

@@ -56,34 +56,60 @@
 		<div class="space-y-6">
 			<!-- Result Badge -->
 			<div class="text-center">
-				<div class={`inline-flex items-center justify-center w-20 h-20 rounded-full ${resultConfig.bgColor} mb-4`}>
+				<div class="relative inline-flex items-center justify-center w-24 h-24 rounded-full mb-6">
 					{#if result === 'APPROVE'}
-						<CheckCircle class={`w-12 h-12 ${resultConfig.color}`} />
+						<div class="absolute inset-0 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+						<div class="relative bg-gradient-to-br from-green-500 to-emerald-600 rounded-full p-6 shadow-lg">
+							<CheckCircle class="w-12 h-12 text-white" />
+						</div>
 					{:else if result === 'NEEDS_PA'}
-						<AlertTriangle class={`w-12 h-12 ${resultConfig.color}`} />
+						<div class="absolute inset-0 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+						<div class="relative bg-gradient-to-br from-amber-500 to-orange-600 rounded-full p-6 shadow-lg">
+							<AlertTriangle class="w-12 h-12 text-white" />
+						</div>
 					{:else}
-						<XCircle class={`w-12 h-12 ${resultConfig.color}`} />
+						<div class="absolute inset-0 bg-gradient-to-br from-red-400 to-rose-500 rounded-full blur-2xl opacity-30 animate-pulse"></div>
+						<div class="relative bg-gradient-to-br from-red-500 to-rose-600 rounded-full p-6 shadow-lg">
+							<XCircle class="w-12 h-12 text-white" />
+						</div>
 					{/if}
 				</div>
-				<h2 class={`text-3xl font-bold ${resultConfig.color}`}>
+				<h2 class={`text-4xl font-bold ${resultConfig.color}`}>
 					{resultConfig.title}
 				</h2>
-				<p class="mt-3 text-lg text-gray-700">
+				<p class="mt-4 text-lg text-gray-700 max-w-md mx-auto">
 					{resultConfig.message}
 				</p>
 			</div>
 			
 			<!-- Privacy Guarantee -->
-			<div class="bg-purple-50 border-2 border-purple-200 rounded-lg p-4">
+			<div class="bg-purple-50/30 border-l-4 border-purple-500 rounded-lg p-5 shadow-sm">
 				<div class="flex items-start space-x-3">
-					<Shield class="w-6 h-6 text-privacy flex-shrink-0 mt-0.5" />
+					<div class="flex-shrink-0 mt-0.5">
+						<div class="relative">
+							<div class="absolute inset-0 bg-purple-400 rounded-full blur-lg opacity-30"></div>
+							<Shield class="relative w-7 h-7 text-purple-600" />
+						</div>
+					</div>
 					<div class="flex-1">
 						<h3 class="text-lg font-bold text-purple-900">Privacy Preserved</h3>
-						<ul class="mt-2 space-y-1 text-sm text-purple-700">
-							<li>✓ No patient data shared with payer</li>
-							<li>✓ Only cryptographic proof transmitted ({proofSize} KB)</li>
-							<li>✓ HIPAA-compliant by design</li>
-							<li>✓ Instant verification ({"<"}1ms)</li>
+						<ul class="mt-3 space-y-2 text-sm text-purple-700">
+							<li class="flex items-center space-x-2">
+								<span class="text-purple-500 font-bold">✓</span>
+								<span>No patient data shared with payer</span>
+							</li>
+							<li class="flex items-center space-x-2">
+								<span class="text-purple-500 font-bold">✓</span>
+								<span>Only cryptographic proof transmitted ({proofSize} KB)</span>
+							</li>
+							<li class="flex items-center space-x-2">
+								<span class="text-purple-500 font-bold">✓</span>
+								<span>HIPAA-compliant by design</span>
+							</li>
+							<li class="flex items-center space-x-2">
+								<span class="text-purple-500 font-bold">✓</span>
+								<span>Instant verification ({"<"}1ms)</span>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -91,27 +117,27 @@
 			
 			<!-- Proof Statistics -->
 			<div class="grid grid-cols-2 gap-4">
-				<div class="bg-gray-50 rounded-lg p-4">
-					<p class="text-sm text-gray-500">Policy ID</p>
-					<p class="text-lg font-semibold text-gray-900 mt-1 truncate">
+				<div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+					<p class="text-sm font-medium text-gray-500">Policy ID</p>
+					<p class="text-lg font-bold text-gray-900 mt-2 truncate">
 						{decisionRecord.policyId}
 					</p>
 				</div>
-				<div class="bg-gray-50 rounded-lg p-4">
-					<p class="text-sm text-gray-500">Proof Size</p>
-					<p class="text-lg font-semibold text-gray-900 mt-1">
+				<div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+					<p class="text-sm font-medium text-gray-500">Proof Size</p>
+					<p class="text-lg font-bold text-gray-900 mt-2">
 						{proofSize} KB
 					</p>
 				</div>
-				<div class="bg-gray-50 rounded-lg p-4">
-					<p class="text-sm text-gray-500">Procedure Code</p>
-					<p class="text-lg font-semibold text-gray-900 mt-1">
+				<div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+					<p class="text-sm font-medium text-gray-500">Procedure Code</p>
+					<p class="text-lg font-bold text-gray-900 mt-2">
 						{decisionRecord.code}
 					</p>
 				</div>
-				<div class="bg-gray-50 rounded-lg p-4">
-					<p class="text-sm text-gray-500">Line of Business</p>
-					<p class="text-lg font-semibold text-gray-900 mt-1 uppercase">
+				<div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow">
+					<p class="text-sm font-medium text-gray-500">Line of Business</p>
+					<p class="text-lg font-bold text-gray-900 mt-2 uppercase">
 						{decisionRecord.lob}
 					</p>
 				</div>
