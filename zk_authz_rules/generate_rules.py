@@ -32,8 +32,9 @@ CMS_BASE_URL = "https://www.cms.gov"
 CMS_MCD_BASE = f"{CMS_BASE_URL}/medicare-coverage-database"
 
 # CPT codes to search for - will search Medicare database for articles containing these codes
-# We'll search for 10-15 articles with different CPT codes
+# Expanded list with 65 CPT codes for comprehensive coverage
 CPT_CODES_TO_PROCESS = [
+    # Original 15 codes
     "97110",  # Therapeutic procedure
     "97112",  # Neuromuscular reeducation
     "97116",  # Gait training
@@ -49,26 +50,79 @@ CPT_CODES_TO_PROCESS = [
     "27447",  # Knee arthroplasty
     "29881",  # Knee arthroscopy
     "45380",  # Colonoscopy with biopsy
+    # 50 additional CPT codes
+    "99203",  # Office visit new patient
+    "99204",  # Office visit new patient
+    "99205",  # Office visit new patient
+    "99211",  # Office visit established
+    "99212",  # Office visit established
+    "99215",  # Office visit established
+    "99223",  # Hospital inpatient
+    "99232",  # Hospital inpatient
+    "99233",  # Hospital inpatient
+    "99281",  # Emergency department
+    "99282",  # Emergency department
+    "99283",  # Emergency department
+    "99284",  # Emergency department
+    "99285",  # Emergency department
+    "70460",  # CT head without contrast
+    "70470",  # CT head with contrast
+    "70480",  # CT orbit/face/neck
+    "70481",  # CT orbit/face/neck with contrast
+    "70482",  # CT orbit/face/neck without contrast
+    "70551",  # MRI brain without contrast
+    "70552",  # MRI brain with contrast
+    "70553",  # MRI brain without and with contrast
+    "72146",  # MRI lumbar spine without contrast
+    "72148",  # MRI lumbar spine with contrast
+    "72156",  # MRI lumbar spine without and with contrast
+    "72157",  # MRI cervical spine without contrast
+    "72158",  # MRI cervical spine with contrast
+    "45385",  # Colonoscopy with removal
+    "45388",  # Colonoscopy with ablation
+    "45390",  # Colonoscopy with decompression
+    "45392",  # Colonoscopy with removal of foreign body
+    "45393",  # Colonoscopy with directed submucosal injection
+    "27446",  # Knee arthroplasty, tibial plateau
+    "27487",  # Knee arthroplasty, revision
+    "29880",  # Knee arthroscopy with meniscectomy
+    "29882",  # Knee arthroscopy with chondroplasty
+    "29883",  # Knee arthroscopy with synovectomy
+    "29884",  # Knee arthroscopy with removal of loose body
+    "29885",  # Knee arthroscopy with removal of osteochondral fragment
+    "29886",  # Knee arthroscopy with meniscal repair
+    "29887",  # Knee arthroscopy with ACL reconstruction
+    "29888",  # Knee arthroscopy with PCL reconstruction
+    "29889",  # Knee arthroscopy with multiple procedures
+    "71020",  # Chest X-ray, 2 views
+    "71035",  # Chest X-ray, complete
+    "71036",  # Chest X-ray, 4+ views
+    "71037",  # Chest X-ray, bedside
+    "36415",  # Venipuncture
+    "36416",  # Venipuncture, age 3+
+    "80053",  # Comprehensive metabolic panel
+    "80069",  # Lipid panel
+    "81001",  # Urinalysis
+    "81002",  # Urinalysis with microscopy
+    "81003",  # Urinalysis with culture
 ]
 
 # Known Medicare article IDs to use as fallback (these are real articles that exist)
-# We'll cycle through these to get different ICD codes for each CPT
+# Expanded to 65+ articles to ensure variety for different CPT codes
 MEDICARE_ARTICLE_IDS = [
-    (57021, 19),  # Cervical Disc Replacement
-    (57022, 19),  # Various procedures
-    (57023, 19),
-    (57024, 19),
-    (57025, 19),
-    (57026, 19),
-    (57027, 19),
-    (57028, 19),
-    (57029, 19),
-    (57030, 19),
-    (57031, 19),
-    (57032, 19),
-    (57033, 19),
-    (57034, 19),
-    (57035, 19),
+    (57021, 19), (57022, 19), (57023, 19), (57024, 19), (57025, 19),
+    (57026, 19), (57027, 19), (57028, 19), (57029, 19), (57030, 19),
+    (57031, 19), (57032, 19), (57033, 19), (57034, 19), (57035, 19),
+    (57036, 19), (57037, 19), (57038, 19), (57039, 19), (57040, 19),
+    (57041, 19), (57042, 19), (57043, 19), (57044, 19), (57045, 19),
+    (57046, 19), (57047, 19), (57048, 19), (57049, 19), (57050, 19),
+    (57051, 19), (57052, 19), (57053, 19), (57054, 19), (57055, 19),
+    (57056, 19), (57057, 19), (57058, 19), (57059, 19), (57060, 19),
+    (57061, 19), (57062, 19), (57063, 19), (57064, 19), (57065, 19),
+    (57066, 19), (57067, 19), (57068, 19), (57069, 19), (57070, 19),
+    (57071, 19), (57072, 19), (57073, 19), (57074, 19), (57075, 19),
+    (57076, 19), (57077, 19), (57078, 19), (57079, 19), (57080, 19),
+    (57081, 19), (57082, 19), (57083, 19), (57084, 19), (57085, 19),
 ]
 
 

@@ -8,33 +8,22 @@
   "exclusion": {},
   "inclusion": {
     "icd10_in": [
-      "G542",
-      "G549",
-      "M4802",
-      "M50",
-      "M5001",
-      "M5002",
-      "M5011",
-      "M5012",
-      "M5021",
-      "M5022",
-      "M5031",
-      "M5032",
-      "M531",
-      "Z981"
+      "A5514",
+      "E08",
+      "E0862"
     ]
   },
   "lob": "original",
   "metadata": {
-    "articleid": 57021,
+    "articleid": 57050,
     "effective_date": "2025-01-01",
-    "notes": "Extracted from Medicare Coverage Database. Article - Billing and Coding: Cervical Disc Replacement (A57021)",
-    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57021&ver=19",
+    "notes": "Extracted from Medicare Coverage Database. MCD Search",
+    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57050&ver=19",
     "version": 19
   },
   "payer": "medicare",
   "policy_id": "MEDICARE-72141",
   "requires_pa": true,
   "version": "2025-01-01",
-  "policy_hash": "0x37bd8199ad6b97cf75f3a0fbc9edfd4c587e3f30a56f52ee1d771dcc54e5f649"
+  "policy_hash": "0xa07e52c94d8662eb138fdc4eda07b2ad3a3eb7da7a8d9c5ac80c34ae3db8f475"
 }

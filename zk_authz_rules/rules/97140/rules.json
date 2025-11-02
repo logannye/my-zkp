@@ -15,15 +15,15 @@
   },
   "lob": "original",
   "metadata": {
-    "articleid": 57035,
+    "articleid": 57068,
     "effective_date": "2025-01-01",
     "notes": "Extracted from Medicare Coverage Database. MCD Search",
-    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57035&ver=19",
+    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57068&ver=19",
     "version": 19
   },
   "payer": "medicare",
   "policy_id": "MEDICARE-97140",
   "requires_pa": true,
   "version": "2025-01-01",
-  "policy_hash": "0x33c8ef03dbcf927ab2d7f24d0f973d1e58d88dc8f4bc236ed2788ec991c7cb2c"
+  "policy_hash": "0xb6ff1e685a9eddda38a098d2b5e7083452b0ab222acc85af00e0022e8d5e5be6"
 }

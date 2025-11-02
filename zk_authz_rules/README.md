@@ -1,327 +1,187 @@
-Zero-Knowledge–Ready Policy Rules (UHC-focused) — README
-Why this exists (30-second version)
+# Medicare Coverage Rules Generator
 
-You want a deterministic, versioned policy library (e.g., UnitedHealthcare prior-auth/coverage style rules) that your app can query as rules.json per CPT/HCPCS code.
-These rules are:
+## Overview
 
-Canonicalized & hashed → stable policy_hash for proofs/audits
+This folder contains a system for generating and managing medical authorization rules from the Medicare Coverage Database. It extracts ICD-10-CM codes that support or do not support medical necessity for CPT codes, creating deterministic, versioned policy rules that are canonicalized and hashed for use in zero-knowledge proof systems.
 
-Stored in SQLite → easy to update/ship
+## What This Does
 
-Emittable as JSON → your ZK prover/verifier can consume
+1. **Fetches Medicare Coverage Database articles** - Retrieves HTML content from CMS Medicare Coverage Database articles
+2. **Extracts CPT and ICD-10-CM codes** - Parses articles to identify CPT codes and their associated ICD-10-CM diagnosis codes
+3. **Identifies medical necessity criteria** - Distinguishes between ICD-10-CM codes that support medical necessity vs. those that don't
+4. **Generates canonical rules.json files** - Creates one `rules.json` file per CPT code in `rules/{cpt_code}/rules.json` format
+5. **Computes policy hashes** - Generates deterministic SHA256 hashes for cryptographic verification
 
-This repo gives you:
+## File Structure
 
-A tiny policy DSL (age gates, ICD10 in, exclusions, admin checks, PA flag)
+```
+zk_authz_rules/
+├── README.md              # This file
+├── generate_rules.py       # Main script that fetches Medicare articles and generates rules
+├── policy_model.py        # Policy dataclass with canonicalization and hashing
+├── storage.py            # SQLite database interface for policy storage
+├── rules_service.py      # API for querying rules by CPT code
+└── rules/                # Generated rules.json files (one per CPT code)
+    ├── 97110/
+    │   └── rules.json
+    ├── 99213/
+    │   └── rules.json
+    └── ...
+```
 
-Seed policies (illustrative UHC-style — replace with real criteria)
+## Rules.json Format
 
-A rules generator that writes JSON files + inserts into SQLite
+Each `rules.json` file follows this structure:
 
-A lookup function your main app can import: find_rules(code, payer, lob)
-
-Table of Contents
-
-Architecture & Plan
-
-Policy DSL
-
-Normalization & Hashing
-
-What’s Implemented
-
-How to Run
-
-How to Fetch Rules from Your App
-
-Extending with Real UHC Criteria
-
-Hooking in ZK (Rough I/O Contract)
-
-Folder Layout
-
-Roadmap (Next 1–2 days)
-
-FAQ
-
-Architecture & Plan
-
-Goal: “Given (payer, LOB, code), return deterministic rules.json + policy_hash.”
-Inputs: curated policy rules (from UHC docs) with small ICD lists and basic gates.
-Outputs: canonical JSON in ./rules_out (for inspection/sharing) and the same in SQLite (for programmatic lookup).
-
-Flow (offline build):
-
-Author/parse policy → DSL JSON
-
-Canonicalize + compute policy_hash
-
-Insert into SQLite + emit rules_out/<policy>@<version>.json
-
-Flow (runtime use):
-
-App calls find_rules(code, payer, lob) → gets the canonical rules.json (with policy_hash) to pass into your evaluation/ZK layers.
-
-Later you’ll plug this into:
-
-Deterministic evaluator (APPROVE/NEEDS_PA/DENY on private features)
-
-ZK Prover (proves result with policy_hash & patient_commitment)
-
-Policy DSL
-
-Minimal, ZK-friendly structure:
-
+```json
 {
-  "policy_id": "UHC-KNEE-ARTHROPLASTY-001",
-  "version": "2025-10-01",
-  "payer": "uhc",
-  "lob": "commercial",
-  "codes": ["27447"],
+  "policy_id": "MEDICARE-{CPT_CODE}",
+  "version": "2025-01-01",
+  "payer": "medicare",
+  "lob": "original",
+  "codes": ["97110"],
   "requires_pa": true,
   "inclusion": {
-    "age_gte": 50,
-    "icd10_in": ["M170","M1711","M1712"],
-    "failed_conservative": 1
+    "icd10_in": ["A5514", "E08", "E0862"]
   },
   "exclusion": {
-    "icd10_in": ["M009"]
+    "icd10_in": []
   },
   "admin": {
-    "pos_allowed": [11,22],
     "max_units_per_day": 1
   },
   "metadata": {
-    "source_url": "https://uhcprovider.com/…",
-    "effective_date": "2025-10-01",
-    "notes": "Illustrative; replace from UHC PDF."
-  }
+    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57034&ver=19",
+    "articleid": 57034,
+    "version": 19,
+    "effective_date": "2025-01-01",
+    "notes": "Extracted from Medicare Coverage Database..."
+  },
+  "policy_hash": "0x7b69ac08054547d9ec21d373d316ac8053dafc44504880e0aef47848ef3b869f"
 }
+```
 
+### Field Descriptions
 
-Operators supported by your downstream evaluator/ZK (recommended set):
+- **policy_id**: Unique identifier (format: `MEDICARE-{CPT_CODE}`)
+- **version**: Policy version date
+- **payer**: Insurance payer (`"medicare"`)
+- **lob**: Line of business (`"original"`)
+- **codes**: Array of CPT/HCPCS codes covered by this rule
+- **requires_pa**: Boolean indicating if prior authorization is required
+- **inclusion**: Criteria that must be met
+  - **icd10_in**: ICD-10-CM codes that support medical necessity (normalized, uppercase, dotless)
+- **exclusion**: Criteria that exclude coverage
+  - **icd10_in**: ICD-10-CM codes that do NOT support medical necessity
+- **admin**: Administrative rules
+  - **max_units_per_day**: Maximum units allowed per day
+  - **pos_allowed**: Optional array of place of service codes
+- **metadata**: Source information
+  - **source_url**: URL to the Medicare Coverage Database article
+  - **articleid**: Article ID from Medicare database
+  - **version**: Article version number
+  - **effective_date**: When the policy takes effect
+  - **notes**: Human-readable notes
+- **policy_hash**: SHA256 hash of canonical JSON (format: `0x{hex}`)
 
-Comparison: eq, neq, lt, lte, gt, gte
+## Quick Start
 
-Membership: in (used as icd10_in)
+### 1. Install Dependencies
 
-Admin checks: pos_allowed, max_units_per_day
+```bash
+pip install requests beautifulsoup4
+```
 
-Boolean flags as 0/1 (e.g., failed_conservative)
+### 2. Generate Rules
 
-All ICD10 codes in the JSON are normalized (upper, dotless).
-
-Normalization & Hashing
-
-ICD10 normalization:
-
-Convert "M17.11" → "M1711"
-
-Uppercase; strip whitespace
-
-Canonicalization:
-
-Sort object keys
-
-Sort list fields that are set-like (codes, icd10_in, pos_allowed)
-
-Hash: policy_hash = "0x" + SHA256(canonical_json)
-
-This guarantees stable hashes and prevents accidental ordering drift.
-
-What’s Implemented
-
-Python files you have:
-
-policy_model.py
-
-Policy dataclass
-
-Canonicalization + hashing helpers
-
-ICD normalization (M17.11 → M1711)
-
-Policy.hash() → returns policy_hash
-
-storage.py
-
-SQLite schema (rules.db)
-
-init_db() to create tables
-
-insert_policy(Policy) to write canonical JSON + policy_hash
-
-get_policy_by_code(code, payer, lob) to read back the latest policy by code
-
-generate_rules.py
-
-Seed policies (illustrative UHC-style for demo)
-
-python generate_rules.py:
-
-initializes DB
-
-inserts policies
-
-emits canonical JSON + policy_hash into ./rules_out/
-
-Replace the seed ICD lists/URLs with real UHC criteria whenever you’re ready
-
-rules_service.py
-
-Importable interface for your app:
-
-from rules_service import find_rules
-rules = find_rules("27447", payer="uhc", lob="commercial")
-
-
-Returns canonical rules.json dict (already includes policy_hash)
-
-How to Run
-# 1) Create a venv (optional)
-python -m venv .venv
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-pip install --upgrade pip
-
-# 2) Generate seed policies into SQLite + ./rules_out
+```bash
 python generate_rules.py
-# [OK] UHC-KNEE-ARTHROPLASTY-001@2025-10-01 -> rules_out/UHC-KNEE-ARTHROPLASTY-001_2025-10-01.json  hash=0x...
+```
 
-# 3) Fetch a rule (for your application integration)
-python -c "from rules_service import find_rules; import json; print(json.dumps(find_rules('27447','uhc','commercial'), indent=2))"
+This will:
+- Fetch Medicare Coverage Database articles for each CPT code
+- Extract ICD-10-CM codes and medical necessity information
+- Generate `rules/{cpt_code}/rules.json` files (currently generates 69 CPT codes)
 
+### 3. Query Rules Programmatically
 
-You now have:
-
-rules.db (SQLite) with canonical policies
-
-rules_out/*.json with the same content + policy_hash for inspection
-
-How to Fetch Rules from Your App
-# app_policy_loader.py (example use)
+```python
 from rules_service import find_rules
+import json
 
-rules = find_rules(code="27447", payer="uhc", lob="commercial")
-if not rules:
-    raise RuntimeError("No policy found")
-print(rules["policy_hash"], rules["codes"], rules["requires_pa"])
+# Get rules for a specific CPT code
+rules = find_rules(code="27447", payer="medicare", lob="original")
+if rules:
+    print(json.dumps(rules, indent=2))
+```
 
+## How It Works
 
-Return shape (example):
+### 1. Article Fetching
 
-{
-  "policy_id": "UHC-KNEE-ARTHROPLASTY-001",
-  "version": "2025-10-01",
-  "payer": "uhc",
-  "lob": "commercial",
-  "codes": ["27447"],
-  "requires_pa": true,
-  "inclusion": { "age_gte": 50, "icd10_in": ["M170","M1711","M1712"], "failed_conservative": 1 },
-  "exclusion": { "icd10_in": ["M009"] },
-  "admin": { "pos_allowed": [11,22], "max_units_per_day": 1 },
-  "metadata": { "source_url": "https://…", "effective_date": "2025-10-01", "notes": "…" },
-  "policy_hash": "0xabc123…"
-}
+The script searches the Medicare Coverage Database using CPT codes. For each CPT code, it:
+- Searches for articles containing that CPT code
+- Falls back to known article IDs if direct search fails
+- Fetches HTML content from CMS articles
 
-Extending with Real UHC Criteria
+### 2. ICD Code Extraction
 
-Replace the seeds in generate_rules.py:
+Uses regex patterns to extract ICD-10-CM codes from article text:
+- Normalizes codes (removes dots, uppercases): `M17.11` → `M1711`
+- Identifies codes that support vs. don't support medical necessity
+- Uses pattern matching to find phrases like "supports medical necessity" or "does not support medical necessity"
 
-For each policy you care about, update:
+### 3. Canonicalization & Hashing
 
-codes (CPT/HCPCS)
+- **Normalization**: ICD-10 codes are normalized (uppercase, dotless)
+- **Canonicalization**: JSON keys are sorted; list fields (codes, icd10_in) are sorted
+- **Hashing**: SHA256 hash of canonical JSON → `policy_hash`
 
-requires_pa (true/false per UHC PA grids)
+This ensures deterministic hashes that can be verified cryptographically.
 
-inclusion.icd10_in (normalize: dotless codes)
+## Configuration
 
-Any gates (e.g., age_gte, flags)
+Edit `CPT_CODES_TO_PROCESS` in `generate_rules.py` to add or remove CPT codes:
 
-admin (e.g., pos_allowed)
+```python
+CPT_CODES_TO_PROCESS = [
+    "97110",  # Therapeutic procedure
+    "99213",  # Office visit
+    "27447",  # Knee arthroplasty
+    # ... add more CPT codes here
+]
+```
 
-metadata.source_url, effective_date, notes
+## Database Storage
 
-Re-run python generate_rules.py → new JSON + new policy_hash
+Rules are also stored in SQLite (`rules.db`) for programmatic access via `rules_service.py`. The database schema includes:
+- Policy ID, version, payer, LOB
+- CPT codes (JSON array)
+- Inclusion/exclusion criteria (JSON)
+- Administrative rules (JSON)
+- Policy hash
 
-Tip: keep the policy_id stable and bump version when you refresh.
-Your app can key decisions on policy_id@version + policy_hash.
+## Integration with ZK Proofs
 
-Hooking in ZK (Rough I/O Contract)
+The canonical JSON format and policy hashes enable:
+- **Public inputs**: `policy_id`, `policy_hash`, `payer`, `code`, `patient_commitment`, `claimed_result`
+- **Private inputs**: `policy_json`, `patient_features`, `salt`
+- **Verification**: Prover asserts `hash(policy_json) == policy_hash` and evaluates rules deterministically
 
-When you add the prover, you’ll pass the canonical rules.json as either:
+## Files
 
-Public rules: include the whole JSON as a public input (simplest), or
+- **generate_rules.py**: Main script that processes Medicare articles and generates rules
+- **policy_model.py**: Policy dataclass with validation, canonicalization, and hashing
+- **storage.py**: SQLite database interface for storing and querying policies
+- **rules_service.py**: Simple API for fetching rules by CPT code
 
-Committed rules: keep rules private; expose only policy_hash and let the prover assert hash(policy_json) == policy_hash
+## Notes
 
-Public inputs (suggestion):
+- ICD-10-CM codes are normalized (uppercase, dotless) for deterministic matching
+- Policy hashes are computed from canonical JSON to ensure stability
+- Rules are generated from real Medicare Coverage Database articles
+- Each CPT code gets its own `rules/{cpt_code}/rules.json` file
 
-policy_id, policy_hash, payer, lob, code
-patient_commitment          # Hash(features || salt)
-claimed_result              # APPROVE / NEEDS_PA / DENY
+## License
 
-
-Private inputs (witness):
-
-policy_json, features, salt
-
-
-Verifier sees only:
-
-{policy_id, policy_hash, code, patient_commitment, claimed_result, proof_blob}
-
-Folder Layout
-zk_authz_rules/
-  policy_model.py       # DSL + canonicalization + hashing helpers
-  storage.py            # SQLite CRUD + hash persistence
-  generate_rules.py     # seed policies -> DB + ./rules_out JSON
-  rules_service.py      # find_rules(code,payer,lob) -> canonical rules.json
-  rules.db              # created at runtime
-  rules_out/            # emitted canonical JSON files
-  README_RULES.md       # this document
-
-Roadmap (Next 1–2 days)
-
-High-impact quick wins
-
-Add a deterministic evaluator (pure function) so you can test APPROVE/NEEDS_PA/DENY locally before ZK.
-
-Add multi-code support (vector of codes → array of results) if you want batching.
-
-Add a tiny policy registry index (CSV or JSON) that enumerates: policy_id,version,policy_hash,source_url,effective_date,codes[].
-
-Data realism
-
-Swap illustrative seeds for real UHC policy/PA details (you can hand-curate 10–20 codes fast).
-
-Validate ICDs against CDC ICD-10-CM tables; normalize on ingest.
-
-ZK integration
-
-zkVM (e.g., RISC Zero) guest that:
-
-checks hash(policy_json)==policy_hash
-
-checks hash(features||salt)==patient_commitment
-
-runs deterministic rules → asserts result==claimed_result
-
-FAQ
-
-Q: Why canonicalize and hash policies?
-A: To make every decision cryptographically tied to an exact policy version. This enables ZK proofs and external audits.
-
-Q: Do I need to map ICDs to integers?
-A: Not if you use a zkVM—you can compare normalized strings or their hashes. For circuits later, compare fixed-length arrays of hashed ICDs or use a Merkle set.
-
-Q: Can I keep rules public?
-A: Yes. ZK protects patient features, not policy text. Public rules are easiest for the demo and still fully ZK-compatible.
-
-Q: One code or multiple codes per authorization?
-A: Start with one code per rule/proof. Add multi-code later if needed; the storage and hashing model already supports it.
-
-Credits / Notes
-
-Seed policies in generate_rules.py are illustrative. Replace with actual UHC criteria you care about.
-
-This backend is deliberately stdlib-only for portability. You can layer web APIs, scrapers, or LLM parsers later without changing the storage/DSL contracts.
+Part of the ZKP project for medical authorization rules.
