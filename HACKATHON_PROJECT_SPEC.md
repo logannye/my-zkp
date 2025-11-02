@@ -1,4 +1,4 @@
-# Privacy-Preserving Medical Claim Authorization - Hackathon Project Spec
+# Privacy-Preserving Medical Claim Authorization - Project Spec
 
 ## MVP Goal
 
