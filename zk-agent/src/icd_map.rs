@@ -2,10 +2,14 @@
 //!
 //! This module provides a static mapping from ICD-10 diagnosis codes (strings)
 //! to integers for use in the ZKP computation trace.
+//!
+//! For Medicare policies, we use a deterministic hash function to convert ICD-10
+//! codes to integers (matching the Python implementation in zk_authz_rules).
 
 use std::collections::HashMap;
 use lazy_static::lazy_static;
 use anyhow::Result;
+use sha2::{Sha256, Digest};
 
 lazy_static! {
     /// Static ICD-10 code to integer mapping
@@ -80,6 +84,44 @@ pub fn is_valid_icd10(icd10: &str) -> bool {
 /// Get all supported ICD-10 codes
 pub fn get_all_codes() -> Vec<&'static str> {
     ICD_MAP.keys().copied().collect()
+}
+
+/// Map an ICD-10 code to integer using SHA-256 hash (for Medicare policies)
+///
+/// This function implements the same algorithm as `icd10_to_integer` in zk_authz_rules:
+/// 1. Normalize: Remove dots, uppercase ("C50.912" → "C50912")
+/// 2. SHA-256 hash the normalized string
+/// 3. Take first 4 bytes as big-endian u32
+/// 4. Mod 100000
+///
+/// # Arguments
+/// * `icd10` - The ICD-10 code string (e.g., "C50.912" or "E11.9")
+///
+/// # Returns
+/// * Integer representation (0-99999)
+///
+/// # Example
+/// ```
+/// use zk_agent::icd_map::icd10_to_int;
+/// 
+/// let code = icd10_to_int("C50.912");
+/// // Returns deterministic hash value
+/// ```
+pub fn icd10_to_int(icd10: &str) -> u32 {
+    // Normalize: remove dots, uppercase
+    let normalized = icd10.replace(".", "").to_uppercase();
+    
+    // SHA-256 hash
+    let mut hasher = Sha256::new();
+    hasher.update(normalized.as_bytes());
+    let result = hasher.finalize();
+    
+    // Take first 4 bytes as big-endian u32
+    let hash_bytes = [result[0], result[1], result[2], result[3]];
+    let integer_value = u32::from_be_bytes(hash_bytes);
+    
+    // Mod 100000 to get value in range [0, 99999]
+    integer_value % 100000
 }
 
 #[cfg(test)]

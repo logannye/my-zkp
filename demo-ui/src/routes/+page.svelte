@@ -1,14 +1,25 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { workflow } from '$lib/stores/workflow.svelte';
-	import { availableCodes } from '$lib/utils/mock-data';
+	import { loadAvailableCodes } from '$lib/utils/mock-data';
 	import FileUpload from '$lib/components/FileUpload.svelte';
+	import UploadProcessing from '$lib/components/UploadProcessing.svelte';
 	import CodeSelector from '$lib/components/CodeSelector.svelte';
 	import ReviewSummary from '$lib/components/ReviewSummary.svelte';
 	import ProcessingAnimation from '$lib/components/ProcessingAnimation.svelte';
 	import ResultsDisplay from '$lib/components/ResultsDisplay.svelte';
 	import NextSteps from '$lib/components/NextSteps.svelte';
 	import { XCircle } from 'lucide-svelte';
+	import type { Code } from '$lib/types';
 	import '../app.css';
+	
+	let availableCodes = $state<Code[]>([]);
+	let isLoadingCodes = $state(true);
+	
+	onMount(async () => {
+		availableCodes = await loadAvailableCodes();
+		isLoadingCodes = false;
+	});
 </script>
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -37,14 +48,25 @@
 	<main class="container mx-auto px-4 py-8">
 		{#key workflow.step}
 		<div class="animate-in fade-in duration-300">
-			{#if workflow.step === 'upload'}
+			{#if workflow.isProcessingUpload}
+				<UploadProcessing filename={workflow.uploadedFile?.name || 'document.pdf'} />
+			{:else if workflow.step === 'upload'}
 				<FileUpload onFileSelect={(f) => workflow.uploadFile(f)} />
 			{:else if workflow.step === 'select'}
-				<CodeSelector
-					availableCodes={availableCodes}
-					onCodeSelect={(c) => workflow.selectCode(c)}
-					onBack={() => workflow.goBack()}
-				/>
+				{#if isLoadingCodes}
+					<div class="max-w-2xl mx-auto text-center py-12">
+						<div class="animate-pulse space-y-4">
+							<div class="w-16 h-16 mx-auto border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+							<p class="text-gray-600 text-lg">Loading available procedures...</p>
+						</div>
+					</div>
+				{:else}
+					<CodeSelector
+						availableCodes={availableCodes}
+						onCodeSelect={(c) => workflow.selectCode(c)}
+						onBack={() => workflow.goBack()}
+					/>
+				{/if}
 			{:else if workflow.step === 'review'}
 				<ReviewSummary
 					patientInfo={workflow.patientInfo}

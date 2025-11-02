@@ -9,7 +9,7 @@
 	
 	let {
 		onFileSelect,
-		accepted = ['.pdf', '.json', '.txt']
+		accepted = ['.pdf']
 	}: Props = $props();
 	
 	let isDragging = $state(false);
@@ -123,10 +123,10 @@
 					</div>
 					<div>
 						<p class="text-lg font-semibold text-gray-900">
-							Drag patient record here or click to browse
+							Drop patient medical record PDF here
 						</p>
 						<p class="text-sm text-gray-500 mt-2">
-							Supports PDF, JSON, TXT (demo)
+							or click to browse (PDF files only)
 						</p>
 					</div>
 				</div>

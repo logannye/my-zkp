@@ -1,5 +1,4 @@
 import type { WorkflowStep, Code, PatientInfo, AuthorizationResult, DecisionRecord } from '$lib/types';
-import { extractPatientInfo } from '$lib/utils/mock-data';
 
 class WorkflowState {
 	step = $state<WorkflowStep>('upload');
@@ -15,14 +14,46 @@ class WorkflowState {
 	
 	// Status
 	isProcessing = $state(false);
+	isProcessingUpload = $state(false);
 	error = $state<string | null>(null);
 	
 	// Actions
-	uploadFile(file: File) {
+	async uploadFile(file: File) {
 		this.uploadedFile = file;
-		this.patientInfo = extractPatientInfo(file);
-		this.step = 'select';
 		this.error = null;
+		this.isProcessingUpload = true;
+		
+		try {
+			// Simulate processing time for LLM-powered data extraction (2.5 seconds)
+			await new Promise(resolve => setTimeout(resolve, 2500));
+			
+			// Extract patient ID from filename (e.g., "PAT001.pdf" → "PAT001")
+			const patientId = file.name.replace('.pdf', '');
+			
+			// Fetch the pre-parsed patient JSON
+			const response = await fetch(`/patients/${patientId}.json`);
+			if (!response.ok) {
+				throw new Error(`Patient data not found for ${patientId}`);
+			}
+			
+			const patientData = await response.json();
+			
+			// Transform to PatientInfo format
+			this.patientInfo = {
+				name: `Patient ${patientData.patient_id}`,
+				dob: patientData.dob,
+				id: patientData.patient_id,
+				filename: file.name,
+				rawData: patientData
+			};
+			
+			this.isProcessingUpload = false;
+			this.step = 'select';
+		} catch (err) {
+			this.isProcessingUpload = false;
+			this.error = err instanceof Error ? err.message : 'Failed to load patient data';
+			this.step = 'upload';
+		}
 	}
 	
 	selectCode(code: Code) {

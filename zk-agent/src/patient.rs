@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use anyhow::{Result, Context};
 use chrono::{NaiveDate, Datelike};
 
-use crate::icd_map::map_icd10;
+use crate::icd_map::icd10_to_int;
 
 /// Patient record as loaded from JSON (matches input file format)
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -76,12 +76,11 @@ impl PatientExtractor {
             _ => anyhow::bail!("Invalid sex value: {}. Must be 'M' or 'F'", record.sex),
         };
         
-        // Map primary ICD-10 (first in list) to integer
+        // Map primary ICD-10 (first in list) to integer using hash function
         if record.icd10_list.is_empty() {
             anyhow::bail!("Patient record has no ICD-10 codes");
         }
-        let primary_icd10 = map_icd10(&record.icd10_list[0])
-            .with_context(|| format!("Failed to map primary ICD-10: {}", record.icd10_list[0]))?;
+        let primary_icd10 = icd10_to_int(&record.icd10_list[0]);
         
         // Encode boolean as integer
         let pregnant = if record.pregnant { 1 } else { 0 };

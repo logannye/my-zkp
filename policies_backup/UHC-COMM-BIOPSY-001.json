@@ -1,0 +1,25 @@
+{
+  "policy_id": "UHC-COMM-BIOPSY-001",
+  "version": "2025-10-01",
+  "lob": "commercial",
+  "codes": ["19081"],
+  "requires_pa": true,
+  "inclusion": [
+    {
+      "gte": ["age_years", 18]
+    },
+    {
+      "in": ["primary_icd10", [1001, 1002, 1003]]
+    }
+  ],
+  "exclusion": [
+    {
+      "eq": ["pregnant", 1]
+    }
+  ],
+  "admin_rules": {
+    "pos_allowed": [11, 22],
+    "max_units_per_day": 1
+  }
+}
+

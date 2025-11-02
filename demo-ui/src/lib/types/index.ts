@@ -13,6 +13,7 @@ export interface PatientInfo {
 	dob: string;
 	id: string;
 	filename: string;
+	rawData?: any;
 }
 
 export interface DecisionRecord {
