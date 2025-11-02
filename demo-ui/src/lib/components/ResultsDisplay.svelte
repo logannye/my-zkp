@@ -16,6 +16,12 @@
 	
 	let showProofDetails = $state(false);
 	
+	// Detect exception-based approval (MRI Head with qualifying conditions)
+	const isExceptionBasedApproval = $derived(
+		result === 'APPROVE' && 
+		decisionRecord?.code === '70551'  // MRI Head
+	);
+	
 	const resultConfig = $derived.by(() => {
 		if (!result) return null;
 		
@@ -25,7 +31,9 @@
 				bgColor: 'bg-green-50',
 				borderColor: 'border-green-500',
 				title: '✅ APPROVED',
-				message: 'Authorization approved. Proceed with treatment.'
+				message: isExceptionBasedApproval 
+					? 'Authorization approved. Patient meets exception criteria - medical necessity proven for typically-restricted procedure.'
+					: 'Authorization approved. Proceed with treatment.'
 			},
 			NEEDS_PA: {
 				color: 'text-warning',
@@ -81,6 +89,27 @@
 					{resultConfig.message}
 				</p>
 			</div>
+			
+			<!-- Exception-Based Approval Info -->
+			{#if isExceptionBasedApproval}
+				<div class="bg-blue-50/30 border-l-4 border-blue-500 rounded-lg p-4 shadow-sm">
+					<div class="flex items-start space-x-3">
+						<div class="flex-shrink-0 mt-0.5">
+							<svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+							</svg>
+						</div>
+						<div class="flex-1">
+							<h4 class="text-sm font-semibold text-blue-900 mb-1">Exception-Based Approval</h4>
+							<p class="text-sm text-blue-700 leading-relaxed">
+								While MRI Head typically requires prior authorization due to cost, your patient's documented 
+								<strong>neurological condition</strong> meets established exception criteria. The AI-powered ZKP system 
+								has cryptographically proven medical necessity without revealing the specific diagnosis.
+							</p>
+						</div>
+					</div>
+				</div>
+			{/if}
 			
 		<!-- Privacy Guarantee -->
 		<div class="bg-purple-50/30 border-l-4 border-purple-500 rounded-lg p-4 shadow-sm">

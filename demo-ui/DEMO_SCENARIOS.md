@@ -1,13 +1,14 @@
 # Demo Scenarios - Medical Authorization Portal
 
-This document outlines the three key demo scenarios showcasing different authorization outcomes.
+This document outlines the **four** key demo scenarios showcasing different authorization outcomes.
 
 ## 🎬 Scenario Overview
 
-The demo demonstrates three distinct authorization results:
-1. ✅ **Auto-Approved** - No prior authorization required
-2. 🟡 **Prior Auth Required** - Meets criteria but PA needed
-3. ❌ **Denied** - Does not meet policy criteria
+The demo demonstrates **four** distinct authorization results:
+1. ✅ **Auto-Approved (Routine)** - No prior authorization required for standard procedures
+2. ✅ **Auto-Approved (Exception-Based)** - Typically requires PA, but exception criteria met
+3. 🟡 **Prior Auth Required** - Meets criteria but PA needed for review
+4. ❌ **Denied** - Does not meet policy criteria
 
 ---
 
@@ -46,7 +47,49 @@ The demo demonstrates three distinct authorization results:
 
 ---
 
-## 🟡 Scenario 2: Prior Auth Required (Physical Therapy)
+## ✅ Scenario 2: Exception-Based Auto-Approval (MRI Head)
+
+**Patient**: PAT004.pdf
+- **DOB**: 1965-11-30 (Age: 59)
+- **Sex**: Male
+- **ICD-10 Codes**: 
+  - G43.909 (Migraine, unspecified, not intractable)
+  - M54.5 (Low back pain)
+- **Place of Service**: 22 (Outpatient Hospital)
+- **Units**: 1
+
+**Procedure**: 70551 - MRI Head without contrast
+
+**Policy**: 
+- **ID**: Medicare Article 57089
+- **Requires PA**: ⚠️ **TRUE** (Typically requires PA - expensive imaging)
+- **Exception Criteria** (Auto-approve if met):
+  - Age: 18-100 ✓
+  - ICD-10: Neurological/oncological conditions (Migraine matches) ✓
+  - Place of Service: 11, 21, 22, 23, 24 ✓
+  - Not pregnant ✓
+
+**Expected Result**: **APPROVE** (Exception-Based)
+- **Badge Display**: "PA Required" (reflects typical policy)
+- **Actual Result**: Auto-approved because patient meets exception criteria
+- **Message**: "Authorization approved. Patient meets exception criteria - medical necessity proven for typically-restricted procedure."
+- **Additional Info**: "While MRI Head typically requires prior authorization due to cost, your patient's documented neurological condition meets established exception criteria. The AI-powered ZKP system has cryptographically proven medical necessity without revealing the specific diagnosis."
+- **ZKP Proof**: Generated and verified
+- **Privacy**: Diagnosis (migraine) never revealed, only proof that exception criteria met
+
+**Why It Works**:
+- MRI Head is expensive ($1,000-$3,000), so normally scrutinized with PA
+- Severe neurological conditions (migraines, strokes, seizures) qualify for expedited approval
+- Patient has documented migraine (G43.909) which meets exception criteria
+- System proves patient qualifies without revealing specific diagnosis
+- Demonstrates AI intelligence: "normally PA, BUT exception applies"
+
+**Demo Talking Points**:
+> "Here's where it gets sophisticated. MRI Head is expensive imaging - the payer typically requires prior authorization to prevent overutilization. Notice the 'PA Required' badge on the selection screen. But watch what happens when we run the ZKP evaluation. Our patient has chronic migraines - a qualifying neurological condition. The AI agent evaluates the policy's exception criteria and discovers automatic approval applies. The ZKP cryptographically proves medical necessity for this exception-based scenario, all while keeping the patient's diagnosis completely private from the payer."
+
+---
+
+## 🟡 Scenario 3: Prior Auth Required (Physical Therapy)
 
 **Patient**: PAT002.pdf (same patient as above)
 - **ICD-10 Codes**: J18.9, E11.65
@@ -73,7 +116,7 @@ The demo demonstrates three distinct authorization results:
 
 ---
 
-## ❌ Scenario 3: Denied (Wrong Criteria)
+## ❌ Scenario 4: Denied (Wrong Criteria)
 
 **Patient**: PAT003.pdf
 - **DOB**: 1995-06-20 (Age: 30)
@@ -109,23 +152,30 @@ The demo demonstrates three distinct authorization results:
 ## 🎯 Demo Flow Recommendations
 
 ### **Opening Statement**:
-> "Today we're demonstrating a privacy-preserving medical authorization system using zero-knowledge proofs. We'll show three scenarios: automatic approval, prior auth required, and denial. In each case, the patient's medical data remains private—only the proof of medical necessity is shared with the payer."
+> "Today we're demonstrating a privacy-preserving medical authorization system using AI agents and zero-knowledge proofs. We'll show **four** scenarios: routine auto-approval, exception-based approval, prior auth required, and denial. In each case, the patient's medical data remains completely private—only the cryptographic proof of medical necessity is shared with the payer."
 
 ### **Demo Sequence**:
 
-1. **Start with Auto-Approve** (Positive first impression)
+1. **Start with Routine Auto-Approve** (Positive first impression)
    - Upload PAT002.pdf
    - Select "71250 - CT Chest"
    - Show instant approval
    - Highlight: "No patient data shared, only cryptographic proof"
 
-2. **Show Prior Auth** (Real-world complexity)
-   - Same patient (PAT002)
+2. **Exception-Based Auto-Approve** ⭐ **STAR SCENARIO** ⭐
+   - Upload PAT004.pdf
+   - Select "70551 - MRI Head" (note "PA Required" badge)
+   - Show AI evaluating exception criteria
+   - Show "APPROVE" result with exception explanation
+   - Explain: "AI detected patient's neurological condition meets exception criteria for expensive imaging. Proof generated without revealing diagnosis."
+
+3. **Show Prior Auth** (Real-world complexity)
+   - Upload PAT002.pdf again
    - Select "97110 - Physical Therapy"
    - Show "NEEDS_PA" result
    - Explain: "System verifies criteria met, but PA required per policy"
 
-3. **Demonstrate Denial** (System integrity)
+4. **Demonstrate Denial** (System integrity)
    - Upload PAT003.pdf
    - Select "27447 - Total Knee Replacement"
    - Show "DENY" result

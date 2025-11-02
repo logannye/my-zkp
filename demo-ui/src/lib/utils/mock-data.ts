@@ -24,11 +24,17 @@ export async function loadAvailableCodes(): Promise<Code[]> {
 			const response = await fetch(`/api/policies/${code}`);
 			if (response.ok) {
 				const policy = await response.json();
+				
+				// Special handling for exception-based policies
+				// MRI Head has auto-approval for qualifying conditions, but we show "PA Required"
+				// badge to indicate it's typically a restricted/expensive procedure
+				const requiresPA = code === '70551' ? true : policy.requires_pa;
+				
 				codes.push({
 					code: code,
 					description: description,
 					policyId: policy.policy_id,
-					requiresPA: policy.requires_pa
+					requiresPA: requiresPA
 				});
 			}
 		} catch (err) {

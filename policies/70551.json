@@ -1,0 +1,56 @@
+{
+  "policy_id": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57089",
+  "version": "2025-10-01",
+  "lob": "commercial",
+  "codes": [
+    "70551"
+  ],
+  "requires_pa": false,
+  "inclusion": [
+    {
+      "gte": [
+        "age_years",
+        18
+      ]
+    },
+    {
+      "lte": [
+        "age_years",
+        100
+      ]
+    },
+    {
+      "in": [
+        "primary_icd10",
+        [
+          18722,
+          71454,
+          15564,
+          12029,
+          7552,
+          54581,
+          45596
+        ]
+      ]
+    }
+  ],
+  "exclusion": [
+    {
+      "eq": [
+        "pregnant",
+        1
+      ]
+    }
+  ],
+  "admin_rules": {
+    "max_units_per_day": 1,
+    "pos_allowed": [
+      11,
+      21,
+      22,
+      23,
+      24
+    ]
+  }
+}
+
