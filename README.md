@@ -299,52 +299,6 @@ This enables proving computations with **billions of rows** on consumer hardware
 
 ---
 
-## Production Deployment
-
-### Option 1: Self-Hosted API Service
-
-Run the included HTTP API server:
-
-```bash
-# Set environment variables
-export UPSTASH_REDIS_REST_URL="https://your-redis.upstash.io"
-export UPSTASH_REDIS_REST_TOKEN="your-token"
-export STRIPE_SECRET_KEY="sk_test_..."  # For billing (optional)
-export TINYZKP_ADMIN_TOKEN="your-admin-secret"
-
-# Start server
-cargo run --release --features dev-srs --bin tinyzkp_api
-```
-
-**API Endpoints**:
-- `POST /v1/prove` — Generate proof from JSON witness
-- `POST /v1/verify` — Verify proof (multipart upload)
-- `GET /v1/domain/plan` — Estimate memory requirements
-- `POST /v1/auth/signup` — Create API account
-- `GET /v1/me` — View usage and limits
-
-### Option 2: Use tinyzkp.com Service
-
-Skip the hosting and use our managed service (powered by this codebase):
-
-```bash
-# Sign up and get API key at tinyzkp.com
-export TINYZKP_API_KEY="tz_..."
-
-# Generate proof via API
-curl -X POST https://api.tinyzkp.com/v1/prove \
-  -H "X-API-Key: $TINYZKP_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d @prove_request.json
-```
-
-**Pricing tiers**:
-- **Free**: 500 proofs/month, up to 4K rows
-- **Pro**: 5K proofs/month, up to 16K rows
-- **Scale**: 50K proofs/month, up to 64K rows
-
----
-
 ## How It Works: The Streaming Innovation
 
 ### Traditional Approach (O(N) Memory)
