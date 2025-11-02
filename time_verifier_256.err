@@ -1,0 +1,20 @@
+(dev-srs) Using deterministic in-crate SRS. For production, pass --srs-g1/--srs-g2.
+domain digest (header): [58, 4f, 22, 6c, ea, 99, 4f, c1, 66, 4a, 2e, 61, f9, 3d, de, 39, a5, 06, 73, b5, bf, f9, 39, 5c, 47, 58, 0b, 0f, 0f, 24, d4, 30]
+        0.42 real         0.22 user         0.01 sys
+             2834432  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                3860  page reclaims
+                   0  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   0  voluntary context switches
+                 147  involuntary context switches
+          3294523380  instructions retired
+           949296775  cycles elapsed
+             1425600  peak memory footprint

@@ -1,0 +1,27 @@
+# Rust build artifacts
+/target/
+**/*.rs.bk
+
+# Test artifacts
+proof.bin
+proof_*.bin
+*.log
+*.csv
+memory_*.log
+streaming_check.log
+witness_*.csv
+tampered_*.bin
+security_*.log
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+
