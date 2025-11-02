@@ -15,6 +15,14 @@
 	}: Props = $props();
 	
 	let showProofDetails = $state(false);
+	let showCelebration = $state(false);
+	
+	$effect(() => {
+		if (result === 'APPROVE') {
+			showCelebration = true;
+			setTimeout(() => showCelebration = false, 2000);
+		}
+	});
 	
 	const resultConfig = $derived.by(() => {
 		if (!result) return null;
@@ -192,5 +200,23 @@
 			</div>
 		</div>
 	</Card>
+	
+	<!-- Celebration Effect -->
+	{#if showCelebration && result === 'APPROVE'}
+		<div class="fixed inset-0 pointer-events-none z-40 overflow-hidden">
+			{#each Array(12) as _, i}
+				<div
+					class="absolute w-3 h-3 rounded-full animate-float"
+					style="
+						background: {['#10b981', '#3b82f6', '#8b5cf6', '#f59e0b'][i % 4]};
+						left: {20 + (i * 60 / 12)}%;
+						top: -20px;
+						animation-delay: {i * 0.1}s;
+						animation-duration: {2 + (i % 3) * 0.5}s;
+					"
+				></div>
+			{/each}
+		</div>
+	{/if}
 {/if}
 

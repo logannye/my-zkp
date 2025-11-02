@@ -49,30 +49,69 @@
 		</div>
 		
 		<div class="flex justify-center py-8">
-			<Loader class="w-16 h-16 text-primary animate-spin" />
+			<div class="relative">
+				<div class="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full blur-2xl opacity-20 animate-pulse"></div>
+				<div class="relative">
+					<Loader class="w-20 h-20 text-primary animate-spin" />
+				</div>
+			</div>
 		</div>
 		
 		<div class="space-y-4">
-			<Progress value={progress} class="h-2" />
+			<Progress value={progress} class="h-3" />
 			
 			<div class="text-center">
-				<p class="text-lg font-medium text-gray-900 min-h-[1.75rem]">
+				<p class="text-lg font-semibold text-gray-900 min-h-[1.75rem] transition-all duration-300">
 					{currentStep}
 				</p>
 				<p class="text-sm text-gray-500 mt-2">
 					{progress}% complete
 				</p>
 			</div>
+			
+			<!-- Step indicators -->
+			<div class="flex justify-center items-center space-x-2 pt-2">
+				{#each steps as step, i}
+					<div 
+						class="w-2 h-2 rounded-full transition-all duration-300"
+						class:bg-green-500={i < stepIndex}
+						class:bg-blue-500={i === stepIndex}
+						class:bg-gray-300={i > stepIndex}
+					></div>
+				{/each}
+			</div>
 		</div>
 		
-		<div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-			<h3 class="text-sm font-semibold text-blue-900 mb-2">What's Happening?</h3>
-			<ul class="text-sm text-blue-700 space-y-1">
-				<li>• Converting medical data to mathematical constraints</li>
-				<li>• Evaluating policy rules against patient criteria</li>
-				<li>• Generating cryptographic commitment and proof</li>
-				<li>• Creating verifiable decision record</li>
-			</ul>
+		<div class="bg-blue-50/30 border-l-4 border-blue-500 rounded-lg p-4 shadow-sm">
+			<div class="flex items-start space-x-3">
+				<div class="relative mt-0.5">
+					<div class="absolute inset-0 bg-blue-400 rounded-full blur-md opacity-20"></div>
+					<svg class="relative w-6 h-6 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+					</svg>
+				</div>
+				<div class="flex-1">
+					<h3 class="text-sm font-semibold text-blue-900 mb-2">What's Happening?</h3>
+					<ul class="text-sm text-blue-700 space-y-1.5">
+						<li class="flex items-center space-x-2">
+							<span class="text-blue-500">•</span>
+							<span>Converting medical data to mathematical constraints</span>
+						</li>
+						<li class="flex items-center space-x-2">
+							<span class="text-blue-500">•</span>
+							<span>Evaluating policy rules against patient criteria</span>
+						</li>
+						<li class="flex items-center space-x-2">
+							<span class="text-blue-500">•</span>
+							<span>Generating cryptographic commitment and proof</span>
+						</li>
+						<li class="flex items-center space-x-2">
+							<span class="text-blue-500">•</span>
+							<span>Creating verifiable decision record</span>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		
 		<div class="text-center text-sm text-gray-500">
