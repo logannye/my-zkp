@@ -1,0 +1,71 @@
+{
+  "policy_id": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57038",
+  "version": "2025-10-01",
+  "lob": "commercial",
+  "codes": [
+    "93296"
+  ],
+  "requires_pa": true,
+  "inclusion": [
+    {
+      "gte": [
+        "age_years",
+        18
+      ]
+    },
+    {
+      "lte": [
+        "age_years",
+        80
+      ]
+    },
+    {
+      "in": [
+        "primary_icd10",
+        [
+          80427,
+          45489,
+          11406,
+          91992,
+          22112,
+          16455,
+          46254,
+          99244,
+          29790,
+          85801,
+          46350,
+          51025,
+          1183,
+          35173,
+          92558,
+          56671,
+          17906,
+          30015,
+          63078,
+          22710,
+          47692,
+          80979,
+          54173,
+          2214,
+          92643,
+          90543,
+          66960,
+          83911,
+          87335,
+          13903,
+          72203,
+          68731,
+          85553
+        ]
+      ]
+    }
+  ],
+  "exclusion": [],
+  "admin_rules": {
+    "max_units_per_day": 1,
+    "pos_allowed": [
+      22,
+      24
+    ]
+  }
+}

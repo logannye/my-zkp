@@ -1,0 +1,39 @@
+{
+  "policy_id": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57034",
+  "version": "2025-10-01",
+  "lob": "commercial",
+  "codes": [
+    "81479"
+  ],
+  "requires_pa": true,
+  "inclusion": [
+    {
+      "gte": [
+        "age_years",
+        18
+      ]
+    },
+    {
+      "lte": [
+        "age_years",
+        80
+      ]
+    },
+    {
+      "in": [
+        "primary_icd10",
+        [
+          79908
+        ]
+      ]
+    }
+  ],
+  "exclusion": [],
+  "admin_rules": {
+    "max_units_per_day": 1,
+    "pos_allowed": [
+      22,
+      24
+    ]
+  }
+}
