@@ -1,0 +1,12 @@
+{
+  "patient_id": "PAT010",
+  "dob": "1990-01-18",
+  "sex": "M",
+  "icd10_list": [
+    "C61",
+    "N40.1"
+  ],
+  "pregnant": false,
+  "place_of_service": 11,
+  "units": 1
+}
