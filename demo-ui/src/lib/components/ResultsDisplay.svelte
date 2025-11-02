@@ -25,7 +25,7 @@
 				bgColor: 'bg-green-50',
 				borderColor: 'border-green-500',
 				title: '✅ APPROVED',
-				message: 'Authorization approved. Proceed with scheduling the procedure.'
+				message: 'Authorization approved. Proceed with treatment.'
 			},
 			NEEDS_PA: {
 				color: 'text-warning',
