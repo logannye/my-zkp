@@ -76,6 +76,10 @@ class WorkflowState {
 		this.isProcessing = true;
 		this.error = null;
 		
+		// Track start time to ensure minimum display duration for demo
+		const startTime = Date.now();
+		const MIN_PROCESSING_TIME = 3000; // 3 seconds minimum for AI processing visibility
+		
 		try {
 			const response = await fetch('/api/authorize', {
 				method: 'POST',
@@ -94,6 +98,15 @@ class WorkflowState {
 			}
 			
 			const data = await response.json();
+			
+			// Calculate elapsed time and ensure minimum display duration
+			const elapsed = Date.now() - startTime;
+			const remainingTime = Math.max(0, MIN_PROCESSING_TIME - elapsed);
+			
+			// Wait for remaining time to ensure AI processing animation is visible
+			if (remainingTime > 0) {
+				await new Promise(resolve => setTimeout(resolve, remainingTime));
+			}
 			
 			this.authorizationResult = data.result;
 			this.decisionRecord = data.decisionRecord;

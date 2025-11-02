@@ -1,5 +1,11 @@
 # SSZKP — Zero-Knowledge Proofs Of Any Size, On Any Device
 
+> **🏆 Hackathon Judges**: Start with **[HACKATHON_README.md](HACKATHON_README.md)** for the project overview, problem statement, AI agent workflow, and live demo instructions!
+>
+> This README covers the **technical ZKP engine**. The hackathon project is a **privacy-preserving medical authorization system** powered by AI agents + zero-knowledge proofs.
+
+---
+
 **Generate cryptographically secure zero-knowledge proofs using 100x+ less memory through streaming computation.**
 
 This is a reference implementation of the prover/verifier from the whitepaper **"Zero-knowledge Proofs in Sublinear Space."** It demonstrates that you can generate production-ready KZG commitments (BN254) for blockchain-scale computations using **O(√N) memory** instead of the traditional O(N) — enabling ZK proofs on laptops, edge devices, and even smartphones.
