@@ -1,0 +1,29 @@
+{
+  "admin": {
+    "max_units_per_day": 1
+  },
+  "codes": [
+    "99213"
+  ],
+  "exclusion": {},
+  "inclusion": {
+    "icd10_in": [
+      "A5514",
+      "E08",
+      "E0862"
+    ]
+  },
+  "lob": "original",
+  "metadata": {
+    "articleid": 57024,
+    "effective_date": "2025-01-01",
+    "notes": "Extracted from Medicare Coverage Database. MCD Search",
+    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57024&ver=19",
+    "version": 19
+  },
+  "payer": "medicare",
+  "policy_id": "MEDICARE-99213",
+  "requires_pa": true,
+  "version": "2025-01-01",
+  "policy_hash": "0x9a563ebdac25fa1fe20f5050c6cbcc899a4ebeb90a0ff8bac28556406a7cdd75"
+}

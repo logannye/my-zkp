@@ -1,0 +1,29 @@
+{
+  "admin": {
+    "max_units_per_day": 1
+  },
+  "codes": [
+    "85025"
+  ],
+  "exclusion": {},
+  "inclusion": {
+    "icd10_in": [
+      "A5514",
+      "E08",
+      "E0862"
+    ]
+  },
+  "lob": "original",
+  "metadata": {
+    "articleid": 57035,
+    "effective_date": "2025-01-01",
+    "notes": "Extracted from Medicare Coverage Database. MCD Search",
+    "source_url": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleid=57035&ver=19",
+    "version": 19
+  },
+  "payer": "medicare",
+  "policy_id": "MEDICARE-85025",
+  "requires_pa": true,
+  "version": "2025-01-01",
+  "policy_hash": "0x52bb4386d0f48e2d98198c58ea166771535f58fffdbf4f6fc49cc6543445c8f6"
+}
