@@ -38,15 +38,15 @@ Current systems require full PHI disclosure because there's no way to **prove co
 
 We've built an **end-to-end automated authorization system** where:
 
-1. **AI agents extract and evaluate** medical data against published policy criteria
-2. **Zero-knowledge proofs cryptographically prove** the decision is correct
-3. **Payers verify instantly** without ever seeing patient data
+1. **AI agents extract and evaluate** medical data from patient documents and authorization rules from published policy criteria
+2. **Zero-knowledge proofs cryptographically prove** the authorization decision is correct and emits public proof
+3. **Payers verify instantly** using proof, patient hash and rules hash without ever seeing patient data
 
 ### The Three-Stage AI Agent Workflow
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│  STAGE 1: AI-Powered Data Extraction                           │
+│  STAGE 1: AI-Powered Medical Data Extraction                           │
 │  ─────────────────────────────────────────────────────────────  │
 │  Input:  Unstructured patient PDF (medical records)            │
 │  AI Agent: LLM-powered parser extracts:                         │
@@ -94,10 +94,9 @@ We've built an **end-to-end automated authorization system** where:
 
 ### What Makes This Special?
 
-#### 🤖 **AI Agents at Every Stage**
+#### 🤖 **AI Agents**
 - **Stage 1**: AI parses unstructured medical documents (PDFs, HL7, FHIR)
-- **Stage 2**: AI evaluates complex policy logic and generates proofs automatically
-- **Stage 3**: AI handles secure transmission and routing to payer systems
+- **Stage 2**: AI evaluates complex policy logic and generates structured proofs
 
 #### 🔐 **Zero-Knowledge Privacy Guarantee**
 - Payer learns **ONLY** the authorization outcome (Approve/PA Required/Deny)
@@ -371,36 +370,6 @@ We've built **six specialized test scripts** to validate every aspect of the sys
 
 ---
 
-## 📂 Repository Structure
-
-```
-my-zkp/
-├── HACKATHON_README.md          ← You are here (judges start here!)
-├── README.md                    ← Technical ZKP engine documentation
-├── demo-ui/                     ← Web UI for clinicians
-│   ├── src/lib/components/      ← Svelte components
-│   ├── src/routes/              ← SvelteKit pages + API
-│   ├── DEMO_SCENARIOS.md        ← Walkthrough of 4 demo scenarios
-│   └── README.md                ← UI setup instructions
-├── zk-agent/                    ← Rust crate for medical authorization
-│   ├── src/policy.rs            ← Policy parsing & hashing
-│   ├── src/patient.rs           ← Patient feature extraction
-│   ├── src/trace.rs             ← Computation trace builder
-│   ├── src/decision.rs          ← Authorization result + proof
-│   └── README.md                ← zk-agent API documentation
-├── policies/                    ← 270+ real Medicare policies (JSON)
-├── patients/                    ← 16 sample patient records (JSON)
-├── scripts/                     ← 7 comprehensive test scripts
-└── src/                         ← Streaming ZKP engine (Rust)
-    ├── api.rs                   ← High-level prover/verifier API
-    ├── domain.rs                ← Blocked-IFFT implementation
-    ├── stream.rs                ← Tile-based streaming
-    ├── pcs.rs                   ← KZG commitments
-    └── scheduler.rs             ← Five-phase proving protocol
-```
-
----
-
 ## 🏆 Hackathon Judges: Why This Matters
 
 ### Problem Significance
@@ -455,29 +424,12 @@ To deploy this system in the real world:
 
 ---
 
-## 🚀 Try It Now
-
-```bash
-# 1. Clone and build
-git clone https://github.com/logannye/my-zkp.git
-cd my-zkp
-cargo build --release --package zk-agent
-
-# 2. Start the demo
-cd demo-ui
-npm install
-npm run dev
-
-# 3. Open http://localhost:3000
-# 4. Try the MRI Head scenario (PAT004) for exception-based approval! ⭐
-```
-
----
-
 ## 📞 Contact
 
-**Project Team**: Logan Nye  
-**GitHub**: https://github.com/logannye/my-zkp  
+**Project Team**: Galen Health
+
+**GitHub**: https://github.com/logannye/my-zkp 
+
 **Demo**: `http://localhost:3000` (after running `npm run dev`)
 
 ---
@@ -500,6 +452,4 @@ Built with [Arkworks](https://github.com/arkworks-rs) cryptography libraries and
 ---
 
 **Let's transform healthcare authorization: faster care, guaranteed privacy, automated efficiency.**
-
-🚀 **Start the demo and see it in action!**
 
