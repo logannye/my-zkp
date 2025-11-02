@@ -90,18 +90,18 @@
 				</p>
 			</div>
 			
-			<!-- Privacy Guarantee -->
-			<div class="bg-purple-50/30 border-l-4 border-purple-500 rounded-lg p-5 shadow-sm">
-				<div class="flex items-start space-x-3">
-					<div class="flex-shrink-0 mt-0.5">
-						<div class="relative">
-							<div class="absolute inset-0 bg-purple-400 rounded-full blur-lg opacity-30"></div>
-							<Shield class="relative w-7 h-7 text-purple-600" />
-						</div>
+		<!-- Privacy Guarantee -->
+		<div class="bg-purple-50/30 border-l-4 border-purple-500 rounded-lg p-4 shadow-sm">
+			<div class="flex items-start space-x-3">
+				<div class="flex-shrink-0 mt-0">
+					<div class="relative">
+						<div class="absolute inset-0 bg-purple-400 rounded-full blur-lg opacity-30"></div>
+						<Shield class="relative w-6 h-6 text-purple-600" />
 					</div>
-					<div class="flex-1">
-						<h3 class="text-lg font-bold text-purple-900">Privacy Preserved</h3>
-						<ul class="mt-3 space-y-2 text-sm text-purple-700">
+				</div>
+				<div class="flex-1">
+					<h3 class="text-base font-bold text-purple-900">Privacy Preserved</h3>
+					<ul class="mt-2 space-y-1.5 text-sm text-purple-700">
 							<li class="flex items-center space-x-2">
 								<span class="text-purple-500 font-bold">✓</span>
 								<span>No patient data shared with payer</span>
