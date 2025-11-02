@@ -1,4 +1,4 @@
-# SSZKP — Zero-Knowledge Proofs That Run Anywhere
+# SSZKP — Zero-Knowledge Proofs Of Any Size, On Any Device
 
 **Generate cryptographically secure zero-knowledge proofs using 100x+ less memory through streaming computation.**
 
