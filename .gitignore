@@ -13,6 +13,11 @@ witness_*.csv
 tampered_*.bin
 security_*.log
 
+# ZK-Agent proof outputs
+out/*.json
+out/*.bin
+!out/.gitkeep
+
 # macOS
 .DS_Store
 
@@ -24,4 +29,10 @@ security_*.log
 
 # Temporary files
 *.tmp
+
+# Demo UI
+demo-ui/node_modules/
+demo-ui/.svelte-kit/
+demo-ui/build/
+demo-ui/dist/
 

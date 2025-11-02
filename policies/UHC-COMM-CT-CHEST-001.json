@@ -1,0 +1,25 @@
+{
+  "policy_id": "UHC-COMM-CT-CHEST-001",
+  "version": "2025-10-01",
+  "lob": "commercial",
+  "codes": ["71250", "71260", "71270"],
+  "requires_pa": false,
+  "inclusion": [
+    {
+      "gte": ["age_years", 18]
+    },
+    {
+      "in": ["primary_icd10", [2001, 2002, 2003]]
+    }
+  ],
+  "exclusion": [
+    {
+      "eq": ["pregnant", 1]
+    }
+  ],
+  "admin_rules": {
+    "pos_allowed": [21, 22, 23],
+    "max_units_per_day": 1
+  }
+}
+

@@ -1,0 +1,10 @@
+{
+  "patient_id": "pat-local-uuid-1616",
+  "dob": "2013-01-30",
+  "sex": "M",
+  "icd10_list": ["K04.7"],
+  "pregnant": false,
+  "place_of_service": 11,
+  "units": 1
+}
+

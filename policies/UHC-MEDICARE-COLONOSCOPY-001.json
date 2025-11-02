@@ -1,0 +1,17 @@
+{
+  "policy_id": "UHC-MEDICARE-COLONOSCOPY-001",
+  "version": "2025-10-01",
+  "lob": "medicare",
+  "codes": ["45378"],
+  "requires_pa": false,
+  "inclusion": [
+    {"gte": ["age_years", 50]},
+    {"in": ["primary_icd10", [4001]]}
+  ],
+  "exclusion": [],
+  "admin_rules": {
+    "pos_allowed": [22, 24],
+    "max_units_per_day": 1
+  }
+}
+

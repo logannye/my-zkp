@@ -1,3 +1,6 @@
+[workspace]
+members = [".", "zk-agent"]
+
 [package]
 name = "myzkp"
 version = "0.1.0"

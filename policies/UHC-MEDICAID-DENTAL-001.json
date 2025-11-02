@@ -1,0 +1,17 @@
+{
+  "policy_id": "UHC-MEDICAID-DENTAL-001",
+  "version": "2025-10-01",
+  "lob": "medicaid",
+  "codes": ["D7140"],
+  "requires_pa": false,
+  "inclusion": [
+    {"gte": ["age_years", 6]},
+    {"in": ["primary_icd10", [7001]]}
+  ],
+  "exclusion": [],
+  "admin_rules": {
+    "pos_allowed": [11],
+    "max_units_per_day": 4
+  }
+}
+

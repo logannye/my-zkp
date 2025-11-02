@@ -1,0 +1,14 @@
+MEDICAL RECORD - SAMPLE FILE FOR DEMO
+
+Patient Name: John Doe
+Date of Birth: May 15, 1970
+Patient ID: PAT-DEMO-001
+
+This is a sample file for demonstration purposes.
+In the demo, patient information is extracted from the filename.
+
+For actual authorization, the system uses pre-defined patient 
+data files from the parent project's patients/ directory.
+
+Try uploading this file and selecting a procedure code!
+

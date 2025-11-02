@@ -1,0 +1,18 @@
+MEDICAL RECORD - SAMPLE FILE FOR DEMO
+
+Patient Name: Jane Smith
+Date of Birth: August 22, 1979
+Patient ID: PAT-DEMO-002
+
+This is a sample file for demonstration purposes.
+
+Instructions:
+1. Drag and drop this file into the upload zone
+2. Select a procedure code (e.g., CT Chest, MRI Head)
+3. Review the authorization request
+4. Submit and watch the ZKP proof generation
+5. Download the decision record
+
+The system will generate a real zero-knowledge proof
+using the actual patient/policy data from the backend.
+
