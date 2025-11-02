@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Download, Copy, RotateCcw, FileText, Send, Building2, FileCheck, Loader } from 'lucide-svelte';
+	import { Download, Copy, RotateCcw, FileText, Send, Building2, FileCheck, Loader, Sparkles } from 'lucide-svelte';
 	import Card from './ui/card.svelte';
 	import Button from './ui/button.svelte';
 	import Modal from './ui/modal.svelte';
@@ -140,13 +140,16 @@
 								Send to Payer
 							{/if}
 						</Button>
-						<p class="text-xs text-gray-500 mt-2 text-center">
-							{#if isSending}
-								Transmitting proof to payer's verification system...
-							{:else}
-								Securely submit authorization proof to payer portal
-							{/if}
-						</p>
+					<p class="text-xs mt-2 text-center">
+						{#if isSending}
+							<span class="inline-flex items-center space-x-1.5 text-purple-600">
+								<Sparkles class="w-3.5 h-3.5" />
+								<span class="font-medium">AI agent securely transmitting proof to payer...</span>
+							</span>
+						{:else}
+							<span class="text-gray-500">Securely submit authorization proof to payer portal</span>
+						{/if}
+					</p>
 					</div>
 				{/if}
 				

@@ -11,11 +11,15 @@
 
 <Card class="max-w-2xl mx-auto">
 	<div class="space-y-8 text-center">
-		<!-- Header -->
+		<!-- Header with AI Badge -->
 		<div>
+			<div class="inline-flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-purple-100 to-blue-100 border border-purple-300 rounded-full mb-3">
+				<Sparkles class="w-4 h-4 text-purple-600" />
+				<span class="text-xs font-semibold text-purple-700 uppercase tracking-wide">AI Agent</span>
+			</div>
 			<h2 class="text-2xl font-bold text-gray-900">Processing Patient Record</h2>
 			<p class="mt-2 text-gray-600">
-				Extracting medical data from document...
+				AI-powered extraction from unstructured medical documents
 			</p>
 		</div>
 		
@@ -43,7 +47,12 @@
 					<Sparkles class="relative w-6 h-6 text-blue-600" />
 				</div>
 				<div class="flex-1">
-					<h3 class="text-sm font-semibold text-blue-900 mb-2">What's Happening?</h3>
+					<h3 class="text-sm font-semibold text-blue-900 mb-2">
+						<span class="inline-flex items-center space-x-1.5">
+							<Sparkles class="w-4 h-4" />
+							<span>AI Agent at Work</span>
+						</span>
+					</h3>
 					<ul class="text-sm text-blue-700 space-y-1.5">
 						<li class="flex items-center space-x-2">
 							<span class="text-blue-500">•</span>
@@ -67,8 +76,9 @@
 		</div>
 		
 		<!-- Technical Note -->
-		<div class="text-xs text-gray-500 italic">
-			In production, this step uses LLM-powered extraction to parse unstructured medical documents
+		<div class="flex items-center justify-center space-x-2 text-xs text-purple-600">
+			<Sparkles class="w-3.5 h-3.5" />
+			<span class="font-medium">Large Language Model parsing unstructured medical documents</span>
 		</div>
 	</div>
 </Card>

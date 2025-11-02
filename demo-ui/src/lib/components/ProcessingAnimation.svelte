@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Loader } from 'lucide-svelte';
+	import { Loader, Sparkles } from 'lucide-svelte';
 	import Card from './ui/card.svelte';
 	import Progress from './ui/progress.svelte';
 	import { onMount } from 'svelte';
@@ -42,9 +42,13 @@
 <Card class="max-w-2xl mx-auto">
 	<div class="space-y-6">
 		<div class="text-center">
+			<div class="inline-flex items-center space-x-2 px-3 py-1 bg-gradient-to-r from-indigo-100 to-blue-100 border border-indigo-300 rounded-full mb-3">
+				<Sparkles class="w-4 h-4 text-indigo-600" />
+				<span class="text-xs font-semibold text-indigo-700 uppercase tracking-wide">AI Agent</span>
+			</div>
 			<h2 class="text-2xl font-bold text-gray-900">Processing Authorization Request</h2>
 			<p class="mt-2 text-gray-600">
-				Generating zero-knowledge proof...
+				AI evaluating policy criteria and generating cryptographic proof
 			</p>
 		</div>
 		
@@ -90,27 +94,32 @@
 						<path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
 					</svg>
 				</div>
-				<div class="flex-1">
-					<h3 class="text-sm font-semibold text-blue-900 mb-2">What's Happening?</h3>
-					<ul class="text-sm text-blue-700 space-y-1.5">
-						<li class="flex items-center space-x-2">
-							<span class="text-blue-500">•</span>
-							<span>Converting medical data to mathematical constraints</span>
-						</li>
-						<li class="flex items-center space-x-2">
-							<span class="text-blue-500">•</span>
-							<span>Evaluating policy rules against patient criteria</span>
-						</li>
-						<li class="flex items-center space-x-2">
-							<span class="text-blue-500">•</span>
-							<span>Generating cryptographic commitment and proof</span>
-						</li>
-						<li class="flex items-center space-x-2">
-							<span class="text-blue-500">•</span>
-							<span>Creating verifiable decision record</span>
-						</li>
-					</ul>
-				</div>
+			<div class="flex-1">
+				<h3 class="text-sm font-semibold text-blue-900 mb-2">
+					<span class="inline-flex items-center space-x-1.5">
+						<Sparkles class="w-4 h-4" />
+						<span>AI Agent at Work</span>
+					</span>
+				</h3>
+				<ul class="text-sm text-blue-700 space-y-1.5">
+					<li class="flex items-center space-x-2">
+						<span class="text-blue-500">•</span>
+						<span><strong>AI parsing:</strong> Converting medical data to constraints</span>
+					</li>
+					<li class="flex items-center space-x-2">
+						<span class="text-blue-500">•</span>
+						<span><strong>AI evaluating:</strong> Checking policy rules vs. patient criteria</span>
+					</li>
+					<li class="flex items-center space-x-2">
+						<span class="text-blue-500">•</span>
+						<span><strong>AI generating:</strong> Creating cryptographic proof</span>
+					</li>
+					<li class="flex items-center space-x-2">
+						<span class="text-blue-500">•</span>
+						<span><strong>AI finalizing:</strong> Building verifiable decision record</span>
+					</li>
+				</ul>
+			</div>
 			</div>
 		</div>
 		
