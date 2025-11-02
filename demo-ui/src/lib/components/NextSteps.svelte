@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { Download, Copy, RotateCcw, FileText, Send } from 'lucide-svelte';
+	import { Download, Copy, RotateCcw, FileText, Send, Building2, FileCheck } from 'lucide-svelte';
 	import Card from './ui/card.svelte';
 	import Button from './ui/button.svelte';
-	import Toast from './ui/toast.svelte';
+	import Modal from './ui/modal.svelte';
 	import type { AuthorizationResult, DecisionRecord } from '$lib/types';
 	
 	interface Props {
@@ -18,7 +18,7 @@
 	}: Props = $props();
 	
 	let copySuccess = $state(false);
-	let showSendToast = $state(false);
+	let showSendModal = $state(false);
 	
 	const nextStepsConfig = $derived.by(() => {
 		if (!result) return null;
@@ -86,11 +86,8 @@
 	}
 	
 	function sendToPayer() {
-		// Mock the send action with success feedback
-		showSendToast = true;
-		setTimeout(() => {
-			showSendToast = false;
-		}, 3000);
+		// Mock the send action with modal feedback
+		showSendModal = true;
 	}
 </script>
 
@@ -177,11 +174,34 @@
 		</div>
 	</Card>
 	
-	<!-- Success Toast -->
-	<Toast 
-		show={showSendToast}
-		message="Successfully sent to payer! They will verify the proof."
-		onClose={() => showSendToast = false}
-	/>
+	<!-- Send to Payer Modal -->
+	<Modal
+		show={showSendModal}
+		onClose={() => showSendModal = false}
+		title="Proof Successfully Sent!"
+	>
+		<div class="space-y-4 text-center">
+			<p class="text-gray-700 text-base leading-relaxed">
+				Your zero-knowledge proof of medical necessity has been securely transmitted to the payer's verification system.
+			</p>
+			
+			<div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 text-left">
+				<div class="flex items-start space-x-3">
+					<Building2 class="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+					<div class="flex-1">
+						<h4 class="text-sm font-semibold text-blue-900 mb-1">What Happens Next?</h4>
+						<p class="text-sm text-blue-700 leading-relaxed">
+							The payer will cryptographically verify your proof without accessing any private patient information. You'll receive a response within 24-48 hours.
+						</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="flex items-center justify-center space-x-2 text-sm text-gray-600">
+				<FileCheck class="w-4 h-4 text-green-600" />
+				<span class="font-medium">Privacy-preserving verification in progress</span>
+			</div>
+		</div>
+	</Modal>
 {/if}
 
