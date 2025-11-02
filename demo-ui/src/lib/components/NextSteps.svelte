@@ -182,7 +182,7 @@
 	>
 		<div class="space-y-4 text-center">
 			<p class="text-gray-700 text-base leading-relaxed">
-				Your zero-knowledge proof of medical necessity has been securely transmitted to the payer's verification system.
+				Proof of medical necessity has been sent to the payer. No information about the patient was shared other than proven medical necessity of the requested treatment(s).
 			</p>
 			
 			<div class="bg-blue-50 border-l-4 border-blue-500 rounded-lg p-4 text-left">
@@ -191,7 +191,7 @@
 					<div class="flex-1">
 						<h4 class="text-sm font-semibold text-blue-900 mb-1">What Happens Next?</h4>
 						<p class="text-sm text-blue-700 leading-relaxed">
-							The payer will cryptographically verify your proof without accessing any private patient information. You'll receive a response within 24-48 hours.
+							The payer will verify the proof. You'll receive a response within 24-48 hours.
 						</p>
 					</div>
 				</div>
