@@ -170,10 +170,6 @@ npm install
 npm run dev
 ```
 
-### Walkthrough Video
-
-See `demo-ui/DEMO_SCENARIOS.md` for detailed talking points and screenshots.
-
 ---
 
 ## 🏗️ Technical Architecture
