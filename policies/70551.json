@@ -2,32 +2,27 @@
   "policy_id": "https://www.cms.gov/medicare-coverage-database/view/article.aspx?articleId=57089",
   "version": "2025-10-01",
   "lob": "commercial",
-  "codes": [
-    "70551"
-  ],
+  "codes": ["70551"],
   "requires_pa": false,
+  "approval_type": "exception_based",
+  "approval_note": "Normally requires PA, but auto-approved for qualifying neurological/oncological conditions",
   "inclusion": [
     {
-      "gte": [
-        "age_years",
-        18
-      ]
+      "gte": ["age_years", 18]
     },
     {
-      "lte": [
-        "age_years",
-        100
-      ]
+      "lte": ["age_years", 100]
     },
     {
       "in": [
         "primary_icd10",
         [
           18722,
-          71454,
           15564,
-          12029,
           7552,
+          44790,
+          12029,
+          50697,
           54581,
           45596
         ]
@@ -36,21 +31,11 @@
   ],
   "exclusion": [
     {
-      "eq": [
-        "pregnant",
-        1
-      ]
+      "eq": ["pregnant", 1]
     }
   ],
   "admin_rules": {
     "max_units_per_day": 1,
-    "pos_allowed": [
-      11,
-      21,
-      22,
-      23,
-      24
-    ]
+    "pos_allowed": [11, 21, 22, 23, 24]
   }
 }
-
