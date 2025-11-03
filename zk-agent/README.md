@@ -199,7 +199,6 @@ zk-agent/
 │       ├── mod.rs
 │       ├── prove.rs        # Prove command
 │       └── verify.rs       # Verify command
-├── tests/                  # Integration tests
 ├── Cargo.toml              # Dependencies
 └── README.md               # This file
 ```
@@ -224,7 +223,6 @@ The verifier does NOT learn:
 
 ### What the ZKP Does NOT Guarantee
 
-- **This is not a production payer policy**: Policies are simulated for demo purposes
 - **Policy authorship**: The system assumes the payer publishes official policies
 - **Medical necessity**: ZK proves you followed the policy correctly, not that the policy itself is medically appropriate
 

@@ -99,7 +99,6 @@ zk_patients/
 ├── README.md                  # This file
 ├── requirements.txt           # Python dependencies
 ├── .env                       # OpenAI API key (not in git)
-├── .env.example              # Example .env file
 ├── .gitignore                # Git ignore rules
 ├── generate_patient_pdfs.py   # Script to generate sample PDFs
 ├── extract_patient_data.py   # Main LLM extraction agent
@@ -159,23 +158,6 @@ features = {
 - **Error Handling**: The script will skip PDFs that can't be processed and continue with others.
 - **LLM Accuracy**: Extraction accuracy depends on PDF format and clarity. Review generated JSON for accuracy.
 
-## Troubleshooting
-
-### "OPENAI_API_KEY not found"
-- Make sure you've created a `.env` file with your API key
-- Check that `python-dotenv` is installed and `.env` is in the correct location
-
-### "No text could be extracted from PDF"
-- The PDF might be image-based (scanned). Need OCR preprocessing first.
-- Try opening the PDF in a text editor to verify it contains extractable text.
-
-### "Failed to parse JSON response"
-- The LLM might have returned invalid JSON. Check the API response format.
-- Try using GPT-4o instead of GPT-4o-mini for better accuracy.
-
-### Missing ICD codes
-- Ensure the PDF contains clear diagnosis codes.
-- Check that ICD-10 codes are properly formatted in the source PDF.
 
 ## License
 
