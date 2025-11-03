@@ -170,41 +170,6 @@ npm install
 npm run dev
 ```
 
-Demo runs at `http://localhost:3000`
-
-### Demo Scenarios
-
-We've prepared **four compelling scenarios** that showcase different authorization outcomes:
-
-#### ✅ Scenario 1: Routine Auto-Approval (CT Chest)
-- **Patient**: PAT002 (40-year-old male, pneumonia)
-- **Procedure**: CT Chest (71250)
-- **Result**: ✅ **APPROVED** (routine diagnostic imaging)
-- **Why**: Common respiratory imaging, meets all criteria
-- **Demo Time**: 7 seconds (vs. 2 days manual)
-
-#### ⭐ Scenario 2: Exception-Based Auto-Approval (MRI Head) **[STAR SHOWCASE]**
-- **Patient**: PAT004 (59-year-old male, chronic migraines)
-- **Procedure**: MRI Head (70551) - **Expensive imaging, typically PA required**
-- **Result**: ✅ **APPROVED** (exception criteria met)
-- **Why**: AI detects qualifying neurological condition → auto-approves expensive procedure
-- **Privacy**: Payer learns "approved for exception," NOT the diagnosis (migraine)
-- **Impact**: Patient gets urgent imaging in 7 seconds, not 5 days
-
-#### 🟡 Scenario 3: Prior Auth Required (Physical Therapy)
-- **Patient**: PAT002 (same patient as Scenario 1)
-- **Procedure**: Physical Therapy (97110)
-- **Result**: 🟡 **NEEDS PA** (requires clinical justification)
-- **Why**: Therapy requires treatment plan details, frequency, duration
-- **Demo**: System generates proof, provider submits PA request (not auto-approved)
-
-#### ❌ Scenario 4: Denied (Policy Mismatch)
-- **Patient**: PAT003 (30-year-old female, breast cancer)
-- **Procedure**: Total Knee Replacement (27447)
-- **Result**: ❌ **DENIED** (doesn't meet orthopedic criteria)
-- **Why**: Diagnosis mismatch + wrong place of service
-- **Demo**: ZKP proves denial is justified, protecting both parties
-
 ### Walkthrough Video
 
 See `demo-ui/DEMO_SCENARIOS.md` for detailed talking points and screenshots.
